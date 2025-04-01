@@ -37,9 +37,9 @@ async def user_create(schema: UserCreate, db: TransactionSessionDep, current_use
     return await registration_service.create_user(db=db, schema=schema, current_user=current_user)
 
 
-@user_router.get('/me', response_model=List[UserAccountRead])
-def get_user_me(current_user: CurrentUser):
-    return current_user
+@user_router.get('/me', response_model=UserAccountRead)
+async def get_user_me(db:SessionDep, current_user: CurrentUser):
+    return await user_service.get_user_me(db=db, current_user=current_user)
 
 
 @user_router.patch("/update_user/{user_id}", response_model=UserRead)
@@ -54,4 +54,4 @@ async def delete_user(user_id: int, db: TransactionSessionDep, current_user: Cur
 
 @user_router.get("/all_user", response_model=List[UserAccountRead])
 async def get_all_user(db: SessionDep, current_user: CurrentUser):
-    return await user_service.get_user(db=db, current_user=current_user)
+    return await user_service.get_users(db=db, current_user=current_user)

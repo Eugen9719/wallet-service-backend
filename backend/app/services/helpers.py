@@ -17,5 +17,4 @@ def verify_signature(webhook_data: WebhookRequest) -> bool:
     signature_str += settings.SECRET_PAYMENT_KEY
     # Вычисляем хеш
     expected_signature = hashlib.sha256(signature_str.encode()).hexdigest()
-    print(expected_signature)
     return expected_signature == webhook_data.signature

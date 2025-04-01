@@ -30,6 +30,9 @@ class UserService:
         await self.user_repository.delete_user(db=db, user_id=target_user.id)
         return Msg(msg="Пользователь удален успешно")
 
-    async def get_user(self, db: AsyncSession, current_user: User, ):
+    async def get_user_me(self, db: AsyncSession, current_user: User):
+        return await self.user_repository.get_or_404(db=db, id=current_user.id, options=[selectinload(User.accounts)])
+
+    async def get_users(self, db: AsyncSession, current_user: User):
         self.permission.verify_superuser(current_user)
         return await self.user_repository.base_filter(db,  User.is_superuser==False, options=[selectinload(User.accounts)])
