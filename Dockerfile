@@ -8,14 +8,15 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 # Установим рабочую директорию внутри контейнера
 WORKDIR /app
 
-# Копируем файлы из локальной системы в контейнер
+# Копируем только requirements.txt, чтобы кэшировать зависимость
 COPY requirements.txt /app/requirements.txt
-COPY backend /app/backend
-COPY .env /app/.env
-
 
 # Установим зависимости
-RUN pip install  -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Копируем остальную часть приложения
+COPY backend /app/backend
+COPY .env /app/.env
 
 # Убедимся, что файлы и директории правильные
 RUN ls /app
@@ -25,3 +26,4 @@ EXPOSE 8000
 
 # Запускаем сервер FastAPI с использованием Uvicorn
 CMD ["uvicorn", "backend.main:app", "--reload", "--host", "0.0.0.0", "--port", "8000"]
+
