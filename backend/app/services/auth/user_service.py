@@ -1,7 +1,7 @@
+from sqlalchemy.orm import selectinload
 from sqlmodel.ext.asyncio.session import AsyncSession
 from backend.app.models import User
-from backend.app.models.auth import Msg
-from backend.app.models.users import UserUpdate
+from backend.app.models.schemas import Msg, UserUpdate
 from backend.app.repositories.user_repositories import UserRepository
 from backend.app.services.auth.password_service import PasswordService
 from backend.app.services.auth.permission import PermissionService
@@ -25,7 +25,6 @@ class UserService:
                                                  schema=schema.model_dump(exclude_unset=True, exclude={"password"}))
 
     async def delete_user(self, db: AsyncSession, current_user: User, user_id: int) -> Msg:
-
         self.permission.verify_superuser(current_user)
         target_user = await self.user_repository.get_or_404(db, id=user_id)
         await self.user_repository.delete_user(db=db, user_id=target_user.id)
@@ -33,4 +32,4 @@ class UserService:
 
     async def get_user(self, db: AsyncSession, current_user: User, ):
         self.permission.verify_superuser(current_user)
-        return await self.user_repository.base_filter(db, User.is_superuser == False)
+        return await self.user_repository.base_filter(db,  User.is_superuser==False, options=[selectinload(User.accounts)])

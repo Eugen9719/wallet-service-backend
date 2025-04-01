@@ -7,9 +7,7 @@ from starlette import status
 
 from backend.app.dependencies.auth_dep import CurrentUser
 from backend.app.dependencies.services import registration_service, user_auth, user_service
-from backend.app.models.auth import Token, Msg
-
-from backend.app.models.users import UserRead, UserCreate, UserUpdate
+from backend.app.models.schemas import Token, Msg, UserRead, UserCreate, UserAccountRead, UserUpdate
 
 from backend.core import security
 from backend.core.config import settings
@@ -39,7 +37,7 @@ async def user_create(schema: UserCreate, db: TransactionSessionDep, current_use
     return await registration_service.create_user(db=db, schema=schema, current_user=current_user)
 
 
-@user_router.get('/me', response_model=UserRead)
+@user_router.get('/me', response_model=List[UserAccountRead])
 def get_user_me(current_user: CurrentUser):
     return current_user
 
@@ -54,6 +52,6 @@ async def delete_user(user_id: int, db: TransactionSessionDep, current_user: Cur
     return await user_service.delete_user(db=db, current_user=current_user, user_id=user_id)
 
 
-@user_router.get("/all_user", response_model=List[UserRead])
+@user_router.get("/all_user", response_model=List[UserAccountRead])
 async def get_all_user(db: SessionDep, current_user: CurrentUser):
     return await user_service.get_user(db=db, current_user=current_user)

@@ -10,7 +10,8 @@ class Settings(BaseSettings):
     )
 
     API_V1_STR: str = "/api/v1"  # Базовая строка API
-    SECRET_KEY: str = ""  # Генерация случайного секретного ключа
+    SECRET_KEY: str = ""
+    SECRET_PAYMENT_KEY: str = ""
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 8  # Время жизни токена доступа (8 дней)
     DOMAIN: str = "localhost"  # Домен приложения

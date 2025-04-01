@@ -4,7 +4,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlmodel import SQLModel
 
 from backend.app.models import User
-from backend.app.models.users import UserCreate, UserUpdate
+from backend.app.models.schemas import UserCreate, UserUpdate
+
 from backend.app.repositories.base_repositories import AsyncBaseRepository, QueryMixin
 
 

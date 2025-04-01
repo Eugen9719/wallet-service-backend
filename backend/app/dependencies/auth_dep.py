@@ -3,8 +3,8 @@ import jwt
 from fastapi.security import OAuth2PasswordBearer
 from fastapi import Depends, HTTPException
 from backend.app.dependencies.repositories import user_repo
-from backend.app.models.auth import TokenPayload
-from backend.app.models.users import User
+from backend.app.models.schemas import TokenPayload
+from backend.app.models.user import User
 
 from backend.core.config import settings
 from backend.core.db import SessionDep
