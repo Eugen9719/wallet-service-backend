@@ -1,4 +1,4 @@
-from typing import Literal
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -15,7 +15,6 @@ class Settings(BaseSettings):
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 8  # Время жизни токена доступа (8 дней)
     DOMAIN: str = "localhost"  # Домен приложения
-    ENVIRONMENT: Literal["local", "test", "production"] = 'local'
     SERVER_HOST: str = 'http://127.0.0.1:8010'
 
     PROJECT_NAME: str = "KOROBKA API"

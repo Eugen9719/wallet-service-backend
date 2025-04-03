@@ -26,7 +26,7 @@ async def get_current_user(db: SessionDep, token: TokenDep) -> User:
     except jwt.ExpiredSignatureError:
         raise HTTPException(status_code=403, detail="Token expired")
     except jwt.InvalidTokenError as e:
-        print(f"Invalid token: {e}")  # Логируем ошибку
+        print(f"Invalid token: {e}")
         raise HTTPException(status_code=403, detail="Invalid token")
 
     user = await user_repo.get_or_404(db=db, id=int(token_data.sub))

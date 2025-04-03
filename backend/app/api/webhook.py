@@ -4,7 +4,7 @@ from backend.app.dependencies.repositories import user_repo, payment_repo, accou
 from backend.app.dependencies.services import account_service
 from backend.app.models import Payment
 
-from backend.app.models.schemas import WebhookRequest, AccountCreate
+from backend.app.models.schemas import WebhookRequest
 from backend.app.services.helpers import verify_signature
 
 from backend.core.db import TransactionSessionDep
@@ -29,7 +29,7 @@ async def process_payment_webhook(
     if existing_payment:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Транзакция с id={transaction_id} уже создана}"
+            detail=f"Транзакция с id={webhook_data.transaction_id} уже создана"
         )
 
     # 3. Проверка/создание счета

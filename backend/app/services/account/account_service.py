@@ -30,5 +30,3 @@ class AccountService:
         account = await self.account_repository.get_or_404(db, id=account_id, options=[selectinload(Account.payments)])
         self.permissions.verify_owner_account(account, current_user)
         return account
-
-
